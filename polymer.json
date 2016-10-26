@@ -1,0 +1,18 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/blog-app/blog-app.html",
+  "fragments": [
+    "src/blog-app/shared-styles.html",
+    "src/blog-app/article-list.html",
+    "src/blog-app/article-item.html",
+    "src/blog-app/not-found.html"
+  ],
+  "sources": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json"
+  ],
+  "includeDependencies": [
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ]
+}
