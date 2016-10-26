@@ -1,13 +1,59 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="./shared-styles.html">
+<link rel="import" href="./article-list.html">
+<link rel="import" href="./not-found.html">
 
 <dom-module id="blog-app">
   <template>
-    <style>
+    <style include="shared-styles">
       :host {
         display: block;
       }
+
+      app-toolbar {
+        background-color: #252525;
+        color: #fff;
+      }
+
+      paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
     </style>
-    <h2>Hello [[prop1]]</h2>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+      route="{{route}}"
+      pattern="/:page"
+      data="{{routeData}}"
+      tail="{{subroute}}"></app-route>
+
+    <!-- Main layout -->
+    <app-header-layout has-scrolling-region fullbleed>
+      <!-- Speedbar -->
+      <app-header condenses reveals effects="waterfall" elevation="2">
+        <app-toolbar>
+          <div main-title>My Blog</div>
+        </app-toolbar>
+      </app-header>
+
+      <!-- Page selector -->
+      <iron-pages
+          selected="[[page]]"
+          attr-for-selected="name"
+          fallback-selection="not-found"
+          role="main">
+        <article-list name="article-list" conf="{{config}}"></article-list>
+        <not-found name="not-found"></not-found>
+      </iron-pages>
+
+    </app-header-layout>
   </template>
 
   <script>
@@ -16,11 +62,41 @@
       is: 'blog-app',
 
       properties: {
-        prop1: {
+        page: {
           type: String,
-          value: 'blog-app',
+          reflectToAttribute: true,
+          observer: '_pageChanged'
         },
+        route: Object,
+        routeData: Object,
+        tail: Boolean,
+        subroute: Boolean,
+        config: Object
       },
+
+      ready: function() {
+        this.config = {
+          api: "https://demo-rest-api-sf.herokuapp.com"
+        };
+      },
+
+      observers: [
+        '_routePageChanged(routeData.page)'
+      ],
+
+      _routePageChanged: function (page) {
+        this.page = page || 'article-list';
+      },
+
+      _pageChanged: function (page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl(page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showNotFound, true);
+      },
+
+      _showNotFound: function () {
+        this.page = 'not-found';
+      }
 
     });
   </script>
