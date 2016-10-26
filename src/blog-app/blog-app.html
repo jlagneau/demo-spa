@@ -3,6 +3,7 @@
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
@@ -18,12 +19,20 @@
       }
 
       app-toolbar {
-        background-color: #252525;
-        color: #fff;
+        background-color: var(--paper-grey-900);
+        color: var(--paper-blue-grey-100);
       }
 
       paper-icon-button {
-        --paper-icon-button-ink-color: white;
+        --paper-icon-button-ink-color: var(--paper-blue-grey-100);
+      }
+
+      paper-progress {
+        display: block;
+        width: 100%;
+        --paper-progress-active-color: var(--paper-light-blue-500);
+        --paper-progress-container-color: var(--paper-light-blue-100);
+        --paper-progress-indeterminate-cycle-duration: 6s;
       }
     </style>
 
@@ -40,6 +49,12 @@
       <app-header condenses reveals effects="waterfall" elevation="2">
         <app-toolbar>
           <div main-title>My Blog</div>
+          <template is="dom-if" if="{{environment.loading}}">
+            <paper-progress value="10" indeterminate bottom-item></paper-progress>
+          </template>
+          <template is="dom-if" if="{{!environment.loading}}">
+            <paper-progress value="100" bottom-item></paper-progress>
+          </template>
         </app-toolbar>
       </app-header>
 
@@ -49,7 +64,10 @@
           attr-for-selected="name"
           fallback-selection="not-found"
           role="main">
-        <article-list name="article-list" conf="{{config}}"></article-list>
+        <article-list name="article-list"
+          url="{{environment.apiUrl}}"
+          loading="{{environment.loading}}">
+        </article-list>
         <not-found name="not-found"></not-found>
       </iron-pages>
 
@@ -67,17 +85,17 @@
           reflectToAttribute: true,
           observer: '_pageChanged'
         },
+        environment: {
+          type: Object,
+          value: {
+            apiUrl: "https://demo-rest-api-sf.herokuapp.com",
+            loading: false
+          }
+        },
         route: Object,
         routeData: Object,
         tail: Boolean,
-        subroute: Boolean,
-        config: Object
-      },
-
-      ready: function() {
-        this.config = {
-          api: "https://demo-rest-api-sf.herokuapp.com"
-        };
+        subroute: Boolean
       },
 
       observers: [
