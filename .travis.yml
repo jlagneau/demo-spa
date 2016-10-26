@@ -22,4 +22,4 @@ before_install:
     - sudo dpkg -i google-chrome*.deb
     - npm install -g polymer-cli
 
-script: polymer test
+script: polymer test --verbose
