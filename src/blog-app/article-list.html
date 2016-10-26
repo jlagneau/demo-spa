@@ -10,6 +10,10 @@
       :host {
         display: block;
       }
+
+      #api-error {
+        margin: 20px;
+      }
     </style>
 
     <iron-ajax id="articlesListAjax"
@@ -22,9 +26,11 @@
       on-error="errorHandler">
     </iron-ajax>
 
-    <template is="dom-if" if="{{errorData}}">
-      <h2>[[errorData.request.status]] [[errorData.request.statusText]]</h2>
-      <p>[[errorData.error]]</p>
+    <template is="dom-if" if="[[errorData]]">
+      <div id="api-error">
+        <h2>[[errorData.request.status]] [[errorData.request.statusText]]</h2>
+        <p>[[errorData.error]]</p>
+      </div>
     </template>
 
     <template is="dom-repeat" items="{{data}}" as="item">
@@ -57,7 +63,7 @@
               status: 500,
               statusText: 'Api Error'
             },
-            error: 'The API is offline'
+            error: 'The API is offline. Please retry later.'
           };
         }
       },
