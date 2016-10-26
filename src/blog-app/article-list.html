@@ -9,32 +9,6 @@
     <style include="shared-styles">
       :host {
         display: block;
-        padding: 10px;
-      }
-
-      article {
-        margin: 24px auto;
-        padding: 16px;
-        color: #DDD;
-        border-radius: 5px;
-        max-width: 40vw;
-        min-width: 450px;
-        background-color: #252525;
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-                    0 1px 5px 0 rgba(0, 0, 0, 0.12),
-                    0 3px 1px -2px rgba(0, 0, 0, 0.2);
-      }
-
-      article header {
-        margin: 10px 0 20px 10px;
-      }
-
-      time.date {
-        color: #888888;
-      }
-
-      time.date iron-icon {
-        --iron-icon-fill-color: #888888;
       }
     </style>
 
@@ -53,7 +27,7 @@
     </template>
 
     <template is="dom-repeat" items="{{data}}" as="item">
-      <article class="card" elevation="1">
+      <article>
         <header>
           <h2>[[item.title]]</h2>
           <time class="date" datetime="[[item.created_at]]">
@@ -61,7 +35,12 @@
             On [[formatDate(item.created_at)]]
           </time>
         </header>
-        <div>[[item.content]]</div>
+        <body>[[item.content]]</body>
+        <template is="dom-if" if="[[hasUpdate(item.created_at, item.updated_at)]]">
+          <footer>
+            <p><time class="date" datetime="[[item.updated_at]]">Last updated on [[formatDate(item.updated_at)]]</time></p>
+          </footer>
+        </template>
       </article>
     </template>
 
@@ -77,21 +56,24 @@
         errorData: Object
       },
 
-      formatDate: function (date) {
+      formatDate: function(date) {
         var d = new Date(date);
         return d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
       },
 
+      hasUpdate: function(created, updated) {
+        return created != updated;
+      },
+
       _errorHandler: function(e, detail) {
         if (detail.request.status == 0) {
-          errorData = {
+          this.errorData = {
             request: {
               status: 500,
               statusText: 'Api Error'
             },
             error: 'The API is offline'
           };
-          this.set('errorData', errorData);
         }
       }
     });
