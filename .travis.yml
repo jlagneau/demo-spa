@@ -5,6 +5,8 @@ language: node_js
 
 node_js:
     - "6"
+    - "5"
+    - "4"
 
 branches:
   only:
@@ -24,4 +26,4 @@ before_install:
     - npm install -g bower
     - bower install
 
-script: polymer test --verbose
+script: wct
