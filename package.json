@@ -12,8 +12,8 @@
     "url": "https://github.com/jlagneau/demo-spa/issues"
   },
   "homepage": "https://github.com/jlagneau/demo-spa#readme",
-  "dependencies": {
-    "bower": "^1.7.9",
-    "polymer-cli": "^0.16.0"
+  "scripts": {
+    "preinstall": "npm i -g polymer-cli bower",
+    "postinstall": "bower install && polymer build --sw-precache-config --insert-dependency-links --html.collapseWhitespace"
   }
 }
