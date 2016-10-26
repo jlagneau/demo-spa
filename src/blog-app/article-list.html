@@ -16,6 +16,7 @@
       auto
       url="{{url}}/articles.json"
       handle-as="json"
+      loading="{{loading}}"
       last-response="{{data}}"
       last-error="{{errorData}}"
       on-error="errorHandler">
@@ -38,20 +39,15 @@
 
       properties: {
         loading: {
-          type: Object,
+          type: Boolean,
           notify: true
         },
+        errorData: {
+          type: Object,
+          value: null
+        },
         url: String,
-        data: Array,
-        go: Boolean,
-        errorData: Object
-      },
-
-      attached: function() {
-        this.set('loading', true);
-        this.async(function() {
-          this.set('loading', false);
-        }, 3000);
+        data: Array
       },
 
       errorHandler: function(e, detail) {
