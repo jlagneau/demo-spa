@@ -1,4 +1,4 @@
-sudo: required 
+sudo: required
 
 language: node_js
 
@@ -10,9 +10,17 @@ env:
     - CHROME_BIN=/usr/bin/google-chrome
     - DISPLAY=:99.0
 
+branches:
+  only:
+      - master
+      - develop
+
 before_install:
     - sh -e /etc/init.d/xvfb start
     - sudo apt-get update
     - sudo apt-get install -y libappindicator1 fonts-liberation
     - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     - sudo dpkg -i google-chrome*.deb
+    - sudo npm install -g polymer-cli
+
+script: polymer test
