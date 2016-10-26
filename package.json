@@ -1,0 +1,19 @@
+{
+  "name": "demo-spa",
+  "version": "0.0.1",
+  "description": "Demo of a single page application using a REST API (https://github.com/jlagneau/demo-rest-api) ",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlagneau/demo-spa.git"
+  },
+  "author": "jlagneau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jlagneau/demo-spa/issues"
+  },
+  "homepage": "https://github.com/jlagneau/demo-spa#readme",
+  "dependencies": {
+    "bower": "^1.7.9",
+    "polymer-cli": "^0.16.0"
+  }
+}
