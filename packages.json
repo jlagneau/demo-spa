@@ -1,1 +1,6 @@
-{}
+{
+    "name": "demo-spa-polymer",
+    "version": "0.0.1",
+    "description": "Demo of a single page application using a REST API (https://github.com/jlagneau/demo-rest-api)",
+    "license": "MIT"
+}
