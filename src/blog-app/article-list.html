@@ -14,11 +14,11 @@
 
     <iron-ajax id="articlesListAjax"
       auto
-      url="{{conf.api}}/articles.json"
+      url="{{url}}/articles.json"
       handle-as="json"
       last-response="{{data}}"
       last-error="{{errorData}}"
-      on-error="_errorHandler">
+      on-error="errorHandler">
     </iron-ajax>
 
     <template is="dom-if" if="{{errorData}}">
@@ -37,12 +37,24 @@
       is: 'article-list',
 
       properties: {
+        loading: {
+          type: Object,
+          notify: true
+        },
+        url: String,
         data: Array,
-        conf: Object,
+        go: Boolean,
         errorData: Object
       },
 
-      _errorHandler: function(e, detail) {
+      attached: function() {
+        this.set('loading', true);
+        this.async(function() {
+          this.set('loading', false);
+        }, 3000);
+      },
+
+      errorHandler: function(e, detail) {
         if (detail.request.status == 0) {
           this.errorData = {
             request: {
@@ -52,7 +64,8 @@
             error: 'The API is offline'
           };
         }
-      }
+      },
+
     });
   </script>
 </dom-module>
