@@ -26,4 +26,4 @@ before_install:
     - npm install -g bower
     - bower install
 
-script: wct
+script: polymer test
