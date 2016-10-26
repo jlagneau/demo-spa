@@ -26,4 +26,4 @@ before_install:
     - npm install -g bower
     - bower install
 
-script: polymer test
+script: polymer lint --input src/blog-app/* && polymer test
