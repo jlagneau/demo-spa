@@ -1,0 +1,7 @@
+{
+  "name": "blog-app",
+  "short_name": "blog-app",
+  "description": "Demo of a single page application using a REST API (https://github.com/jlagneau/demo-rest-api)",
+  "start_url": "/",
+  "display": "standalone"
+}
