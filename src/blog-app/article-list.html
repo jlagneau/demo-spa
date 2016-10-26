@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../../bower_components/iron-icons/editor-icons.html">
 <link rel="import" href="./shared-styles.html">
+<link rel="import" href="./article-item.html">
 
 <dom-module id="article-list">
   <template>
@@ -27,21 +27,7 @@
     </template>
 
     <template is="dom-repeat" items="{{data}}" as="item">
-      <article>
-        <header>
-          <h2>[[item.title]]</h2>
-          <time class="date" datetime="[[item.created_at]]">
-            <iron-icon icon="editor:insert-invitation"></iron-icon>
-            On [[formatDate(item.created_at)]]
-          </time>
-        </header>
-        <body>[[item.content]]</body>
-        <template is="dom-if" if="[[hasUpdate(item.created_at, item.updated_at)]]">
-          <footer>
-            <p><time class="date" datetime="[[item.updated_at]]">Last updated on [[formatDate(item.updated_at)]]</time></p>
-          </footer>
-        </template>
-      </article>
+      <article-item data="{{item}}"></article-item>
     </template>
 
   </template>
@@ -54,15 +40,6 @@
         data: Array,
         conf: Object,
         errorData: Object
-      },
-
-      formatDate: function(date) {
-        var d = new Date(date);
-        return d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
-      },
-
-      hasUpdate: function(created, updated) {
-        return created != updated;
       },
 
       _errorHandler: function(e, detail) {
