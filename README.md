@@ -1,6 +1,10 @@
 # demo-spa
 
+[![Build Status](https://travis-ci.org/jlagneau/demo-spa.svg?branch=master)](https://travis-ci.org/jlagneau/demo-spa)
+
 Demo of a single page application using a REST API (https://github.com/jlagneau/demo-rest-api)
+
+---
 
 ## Install the Polymer-CLI
 
