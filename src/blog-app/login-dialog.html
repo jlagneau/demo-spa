@@ -31,20 +31,18 @@
         <paper-input name="username"
           label="Login"
           type="text"
-          bind-value="{{formData.username}}"
           autofocus
           tabindex="1">
         </paper-input>
         <paper-input name="password"
           label="Password"
           type="password"
-          bind-value="{{formData.password}}"
           tabindex="2">
         </paper-input>
       </p>
       <div class="buttons">
         <paper-button dialog-dismiss tabindex="4">Cancel</paper-button>
-        <paper-button dialog-confirm on-tap="{{authenticate}}" tabindex="3">Log in</paper-button>
+        <paper-button dialog-confirm tabindex="3">Log in</paper-button>
       </div>
     </paper-dialog>
 
