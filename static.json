@@ -1,5 +1,5 @@
 {
-  "root": "build/bundled",
+  "root": "build/bundled/",
   "https_only": true,
   "routes": {
     "/**": "index.html"

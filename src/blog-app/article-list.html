@@ -10,20 +10,27 @@
       :host {
         display: block;
       }
+
+      #api-error {
+        margin: 20px;
+      }
     </style>
 
     <iron-ajax id="articlesListAjax"
       auto
       url="{{url}}/articles.json"
       handle-as="json"
+      loading="{{loading}}"
       last-response="{{data}}"
       last-error="{{errorData}}"
       on-error="errorHandler">
     </iron-ajax>
 
-    <template is="dom-if" if="{{errorData}}">
-      <h2>[[errorData.request.status]] [[errorData.request.statusText]]</h2>
-      <p>[[errorData.error]]</p>
+    <template is="dom-if" if="[[errorData]]">
+      <div id="api-error">
+        <h2>[[errorData.request.status]] [[errorData.request.statusText]]</h2>
+        <p>[[errorData.error]]</p>
+      </div>
     </template>
 
     <template is="dom-repeat" items="{{data}}" as="item">
@@ -34,24 +41,20 @@
 
   <script>
     Polymer({
+
       is: 'article-list',
 
       properties: {
         loading: {
-          type: Object,
+          type: Boolean,
           notify: true
         },
+        errorData: {
+          type: Object,
+          value: null
+        },
         url: String,
-        data: Array,
-        go: Boolean,
-        errorData: Object
-      },
-
-      attached: function() {
-        this.set('loading', true);
-        this.async(function() {
-          this.set('loading', false);
-        }, 3000);
+        data: Array
       },
 
       errorHandler: function(e, detail) {
@@ -61,7 +64,7 @@
               status: 500,
               statusText: 'Api Error'
             },
-            error: 'The API is offline'
+            error: 'The API is offline. Please retry later.'
           };
         }
       },
