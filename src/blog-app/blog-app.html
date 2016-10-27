@@ -1,13 +1,20 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
 <link rel="import" href="../../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
-<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+
 <link rel="import" href="./shared-styles.html">
+<link rel="import" href="./login-dialog.html">
 <link rel="import" href="./article-list.html">
 <link rel="import" href="./not-found.html">
 
@@ -21,6 +28,11 @@
       app-toolbar {
         background-color: var(--paper-grey-900);
         color: var(--paper-blue-grey-100);
+      }
+
+      app-toolbar paper-button {
+        padding: 5px 11px;
+        text-transform: none;
       }
 
       paper-icon-button {
@@ -43,12 +55,17 @@
       data="{{routeData}}"
       tail="{{subroute}}"></app-route>
 
+    <login-dialog></login-dialog>
+
     <!-- Main layout -->
     <app-header-layout has-scrolling-region fullbleed>
       <!-- Speedbar -->
       <app-header condenses reveals effects="waterfall" elevation="2">
         <app-toolbar>
           <div main-title>My Blog</div>
+          <template is="dom-if" if="{{!environment.loggedin}}" restamp="true">
+            <paper-button onclick="loginDialog.open()">Log in</paper-button>
+          </template>
           <template is="dom-if" if="{{environment.loading}}">
             <paper-progress value="10" indeterminate bottom-item></paper-progress>
           </template>
@@ -70,8 +87,8 @@
         </article-list>
         <not-found name="not-found"></not-found>
       </iron-pages>
-
     </app-header-layout>
+
   </template>
 
   <script>
@@ -89,7 +106,8 @@
           type: Object,
           value: {
             apiUrl: "https://demo-rest-api-sf.herokuapp.com",
-            loading: false
+            loading: false,
+            loggedin: false
           }
         },
         route: Object,
